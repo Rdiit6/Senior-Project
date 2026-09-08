@@ -3,6 +3,6 @@
 (with an optional short note) the app reflects their own trends back gently and keeps real human support one tap away. It
 is not a diagnostic or medical tool.
 
-Group Leader: 
-Member 1: 
-Member 2: 
+# Group Leader: 
+# Member 1: 
+# Member 2: 
