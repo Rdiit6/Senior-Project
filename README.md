@@ -4,5 +4,6 @@
 is not a diagnostic or medical tool.
 
 Group Leader: 
-Member 1: Christania Putri Rachmadewi - 532874
-Member 2: 
+Member 1: Nalen Raditya Sadewa - 24/536801/TK/59579
+Member 2: Arya Raditya Ardana-536660 
+Member 3: Christania Putri Rachmadewi - 532874
