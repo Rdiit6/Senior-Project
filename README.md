@@ -4,5 +4,5 @@
 is not a diagnostic or medical tool.
 
 Group Leader: 
-Member 1: 
+Member 1: Christania Putri Rachmadewi - 532874
 Member 2: 
