@@ -5,4 +5,4 @@ is not a diagnostic or medical tool.
 
 Group Leader: 
 Member 1: 
-Member 2: 
+Member 2: Arya Raditya Ardana-536660 
