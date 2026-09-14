@@ -1,0 +1,23 @@
+.gantt {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.gantt th,
+.gantt td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.gantt th:first-child,
+.gantt td:first-child {
+  text-align: left;
+  min-width: 300px;
+}
+
+.gantt .active {
+  background-color: black !important;
+  min-width: 35px;
+  height: 30px;
+}
