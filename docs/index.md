@@ -13,9 +13,9 @@ Faculty of Engineering, Universitas Gadjah Mada
 ## Group [ Group 1 ]
 
 | Member | NIU |
-| Arya Raditya Ardana | [NIU 1] |
+| Arya Raditya Ardana | [536660] |
 | Nalen Raditya Sadewa | [536801] |
-| [ Christania Putri Rachmadewi ] | [NIU 3] |
+| Christania Putri Rachmadewi | [532874] |
 
 ## About the Project
 
