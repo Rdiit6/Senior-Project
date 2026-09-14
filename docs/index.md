@@ -5,18 +5,17 @@ description: Private student self-reflection and signposting web app for UGM
 
 # MindMeter
 
-**IT Senior Project**
+**Senior Project**
 
 Institution: Department of Electrical and Information Engineering (DTETI),
 Faculty of Engineering, Universitas Gadjah Mada
 
-## Group [your group name]
+## Group [ Group 1 ]
 
 | Member | NIU |
-|--------|-----|
-| [Name 1] | [NIU 1] |
-| [Name 2] | [NIU 2] |
-| [Name 3] | [NIU 3] |
+| Arya Raditya Ardana | [NIU 1] |
+| Nalen Raditya Sadewa | [536801] |
+| [ Christania Putri Rachmadewi ] | [NIU 3] |
 
 ## About the Project
 
