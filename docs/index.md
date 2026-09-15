@@ -73,6 +73,8 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
 - **Use case diagram:**
   ![image alt text](./image/Usecase.png)
 
+<br>
+
 - **Functional requirements for the designed use cases:**
   | **FR** | **Description** | **Use Case** | **Stage** |
   |---|---|---|---|
@@ -88,16 +90,18 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
   | **FR-10** | Clearly state within the application that MindMeter is not a medical or diagnostic tool and shall never provide a medical diagnosis. | Cross-cutting | S1 |
   | **FR-11** | Collect no personally identifying information such as a student's name, email address, or demographic information, using only an anonymous user identifier. | Cross-cutting | S1 |
 
+<br>
+
 - **Entity Relationship Diagram:**
-  ![image alt text](./image/ERD.jpeg)
+  ![image alt text](./image/ERD.jpeg) <br> 
 
 - **Low-fidelity Wireframe**
-    1. Daily Check-in
+    1. Daily Check-in <br>
         ![image alt text](./image/checkin.png)
-    2. Dashboard
+    2. Dashboard <br>
         ![image alt text](./image/dashboard.png)
-    3. Support/Crisis Path
-        ![image alt text](./image/support.png)
+    3. Support/Crisis Path <br>
+        ![image alt text](./image/support.png) <br>
 
 - **Gantt-Chart**
 
@@ -125,24 +129,24 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
   <tbody>
     <tr>
       <td>SP 1 : Repo Setup + Branch Protection</td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 1 : Azure Resource group + Database</td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 1: CI GitHub Action + secrets</td>
       <td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
@@ -150,48 +154,48 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td>SP 2: Define crisis keyword list</td>
       <td></td>
       <td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Crisis check (server) + support screen</td>
       <td></td><td></td>
       <td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: DB schema + all API endpoints</td>
       <td></td><td></td><td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Anonymous session (localStorage)</td>
       <td></td><td></td><td></td>
       <td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Check-in screen + dashboard (FE)</td>
       <td></td><td></td><td></td><td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Integrate + deploy Stage 1 to Azure</td>
       <td></td><td></td><td></td><td></td><td></td>
       <td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td>
+      <td  >x</td>
+      <td  >x</td>
       <td></td><td></td><td></td><td></td>
     </tr>
      <tr>
@@ -199,8 +203,8 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td></td><td></td><td></td><td></td><td></td>
       <td></td>
       <td></td>
-      <td style="background-color:black;">x</td>
-      <td style="background-color:black;">x</td><td></td><td></td><td></td>
+      <td  >x</td>
+      <td  >x</td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 3: Choose NLP service + implement call</td>
@@ -208,7 +212,7 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td ></td>
       <td ></td>
       <td ></td>
-      <td  style="background-color:black;">x</td><td  style="background-color:black;">x</td><td></td><td></td>
+      <td   >x</td><td   >x</td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 3: Surface themes on dashboard + test</td>
@@ -216,7 +220,7 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td></td>
       <td></td>
       <td></td>
-      <td></td><td  style="background-color:black;">x</td><td  style="background-color:black;">x</td><td></td>
+      <td></td><td   >x</td><td   >x</td><td></td>
     </tr>
     <tr>
       <td>SP 4: Regression testing + bug fixes</td>
@@ -224,7 +228,7 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td></td>
       <td></td>
       <td></td>
-      <td></td><td></td><td  style="background-color:black;">x</td><td></td>
+      <td></td><td></td><td   >x</td><td></td>
     </tr>
     <tr>
       <td>SP 4: Polish + docs + demo prep</td>
@@ -232,7 +236,7 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td></td>
       <td></td>
       <td></td>
-      <td></td><td></td><td  style="background-color:black;">x</td><td  style="background-color:black;">x</td>
+      <td></td><td></td><td   >x</td><td   >x</td>
     </tr>
   </tbody>
 </table>
