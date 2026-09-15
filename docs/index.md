@@ -123,9 +123,7 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <th>12</th>
     </tr>
   </thead>
-
   <tbody>
-
     <tr>
       <td>SP 1 : Repo Setup + Branch Protection</td>
       <td class="active"></td>
@@ -133,7 +131,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td></td><td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 1 : Azure Resource group + Database</td>
       <td class="active"></td>
@@ -142,7 +139,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td></td><td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 1: CI GitHub Action + secrets</td>
       <td></td>
@@ -151,7 +147,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td></td><td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 2: Define crisis keyword list</td>
       <td></td><td></td>
@@ -159,7 +154,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 2: Crisis check (server) + support screen</td>
       <td></td><td></td><td></td>
@@ -167,7 +161,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 2: DB schema + all API endpoints</td>
       <td></td><td></td><td></td>
@@ -176,7 +169,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 2: Anonymous session (localStorage)</td>
       <td></td><td></td><td></td><td></td>
@@ -184,7 +176,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 2: Check-in screen + dashboard (FE)</td>
       <td></td><td></td><td></td><td></td>
@@ -193,7 +184,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 2: Integrate + deploy Stage 1 to Azure</td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
@@ -201,7 +191,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 2: Seed demo data + Stage 1 testing</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -209,7 +198,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 3: Choose NLP service + implement call</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -217,7 +205,6 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td><td></td>
     </tr>
-
     <tr>
       <td>SP 3: Surface themes on dashboard + test</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -225,20 +212,17 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
       <td class="active"></td>
       <td></td>
     </tr>
-
     <tr>
       <td>SP 4: Regression testing + bug fixes</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
       <td class="active"></td>
       <td></td>
     </tr>
-
     <tr>
       <td>SP 4: Polish + docs + demo prep</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
       <td class="active"></td>
       <td class="active"></td>
     </tr>
-
   </tbody>
 </table>
