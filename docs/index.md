@@ -92,17 +92,16 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
   ![image alt text](./image/ERD.jpeg)
 
 - **Low-fidelity Wireframe**
-  1. Daily Check-in
-     ![image alt text](./image/checkin.png)
-  2. Dashboard
-     ![image alt text](./image/dashboard.png)
-  3. Support/Crisis Path
-     ![image alt text](./image/support.png)
+    1. Daily Check-in
+        ![image alt text](./image/checkin.png)
+    2. Dashboard
+        ![image alt text](./image/dashboard.png)
+    3. Support/Crisis Path
+        ![image alt text](./image/support.png)
 
 - **Gantt-Chart**
-<link rel="stylesheet" href="./image/style.css">
 
-<table class="gantt">
+<table>
   <thead>
     <tr>
       <th rowspan="2">Activity</th>
@@ -126,103 +125,114 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
   <tbody>
     <tr>
       <td>SP 1 : Repo Setup + Branch Protection</td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
       <td></td><td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 1 : Azure Resource group + Database</td>
-      <td class="active"></td>
-      <td class="active"></td>
-      <td class="active"></td>
-      <td></td><td></td><td></td><td></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
+      <td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 1: CI GitHub Action + secrets</td>
       <td></td>
-      <td class="active"></td>
-      <td class="active"></td>
-      <td></td><td></td><td></td><td></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
+      <td></td><td></td><td></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Define crisis keyword list</td>
-      <td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td></td>
+      <td></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Crisis check (server) + support screen</td>
-      <td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td></td><td></td>
+      <td></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: DB schema + all API endpoints</td>
       <td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Anonymous session (localStorage)</td>
-      <td></td><td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td></td><td></td><td></td>
+      <td></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Check-in screen + dashboard (FE)</td>
       <td></td><td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
       <td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 2: Integrate + deploy Stage 1 to Azure</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td>
       <td></td><td></td><td></td><td></td>
     </tr>
-    <tr>
+     <tr>
       <td>SP 2: Seed demo data + Stage 1 testing</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
-      <td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td></td>
+      <td></td>
+      <td style="background-color:black;">x</td>
+      <td style="background-color:black;">x</td><td></td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 3: Choose NLP service + implement call</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
-      <td></td><td></td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td ></td>
+      <td ></td>
+      <td ></td>
+      <td  style="background-color:black;">x</td><td  style="background-color:black;">x</td><td></td><td></td>
     </tr>
     <tr>
       <td>SP 3: Surface themes on dashboard + test</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td></td><td></td><td></td><td></td><td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td><td  style="background-color:black;">x</td><td  style="background-color:black;">x</td><td></td>
     </tr>
     <tr>
       <td>SP 4: Regression testing + bug fixes</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-      <td class="active"></td>
+      <td></td><td></td><td></td><td></td><td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td><td></td><td  style="background-color:black;">x</td><td></td>
     </tr>
     <tr>
       <td>SP 4: Polish + docs + demo prep</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-      <td class="active"></td>
-      <td class="active"></td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td><td></td><td  style="background-color:black;">x</td><td  style="background-color:black;">x</td>
     </tr>
   </tbody>
 </table>
