@@ -1,0 +1,84 @@
+name: CI
+
+# MindMeter CI/CD pipeline
+# - PRs to `dev` and `main` trigger lint + build checks
+# - Push to `main` additionally deploys to Azure (requires AZURE_CREDENTIALS secret)
+# - Path filters skip jobs when the relevant folder didn't change
+
+on:
+  pull_request:
+    branches: [main, dev]
+  push:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend:  ${{ steps.filter.outputs.backend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+            backend:
+              - 'backend/**'
+
+  lint-frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint frontend
+        run: |
+          echo "TODO(FE lead): npm ci && npm run lint"
+          echo "Stack decision pending — placeholder job so PRs still show the pipeline shape."
+
+  lint-backend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint backend
+        run: |
+          echo "TODO(BE lead — Radit): stack-specific lint (pylint / eslint / dotnet format)"
+          echo "Stack decision pending — placeholder job so PRs still show the pipeline shape."
+
+  build-check:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build check
+        run: |
+          echo "TODO: build both sides once the stack is locked."
+          echo "Frontend changed: ${{ needs.detect-changes.outputs.frontend }}"
+          echo "Backend changed:  ${{ needs.detect-changes.outputs.backend }}"
+
+  deploy-azure:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [build-check]
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Azure
+        run: |
+          echo "TODO: azure/login@v2 + deploy step once AZURE_CREDENTIALS is set in repo secrets."
+          echo "Blocked by design until the department Azure account is provisioned."

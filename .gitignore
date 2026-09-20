@@ -1,0 +1,31 @@
+# Editor & OS junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+.pnp.*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Env & secrets
+.env
+.env.local
+*.pem
+
+# Build artifacts
+dist/
+build/
+out/
+coverage/
+
+# Claude session outputs
+Claude outputs/
