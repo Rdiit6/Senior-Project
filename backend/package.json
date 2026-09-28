@@ -1,0 +1,29 @@
+{
+  "name": "mindmeter-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MindMeter REST API: anonymous mood check-ins, rule-based trend insights, crisis signposting, optional OpenRouter NLP.",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "lint": "eslint .",
+    "test": "node --test --test-reporter=spec \"tests/**/*.test.js\"",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed-demo": "node scripts/seed-demo.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^16.5.0"
+  }
+}
