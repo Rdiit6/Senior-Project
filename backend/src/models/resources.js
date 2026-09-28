@@ -2,15 +2,19 @@
 
 // Support contacts and self-help resources, returned in the contract's Resource shape:
 // { id, title, description, url, tags }.
-// The contract has no phone field, so a phone-only resource is returned as a tel: link.
+// The contract has one `url` field, so a phone number is returned as a tel: link.
+// Crisis contacts (and the primary crisis contact) prefer the phone: in a crisis the student
+// should get a number to call, not a website. Other resources prefer their website.
 
-const toResource = (row) => ({
-  id: row.id,
-  title: row.title,
-  description: row.description,
-  url: row.url || `tel:${row.phone.replace(/[^\d+]/g, '')}`,
-  tags: row.tags || [],
-});
+const telLink = (phone) => `tel:${phone.replace(/[^\d+]/g, '')}`;
+
+const toResource = (row) => {
+  const phoneFirst = row.is_primary_crisis || row.type === 'crisis';
+  let url;
+  if (phoneFirst) url = row.phone ? telLink(row.phone) : row.url;
+  else url = row.url || telLink(row.phone);
+  return { id: row.id, title: row.title, description: row.description, url, tags: row.tags || [] };
+};
 
 const SELECT = `
   SELECT r.id, r.title, r.description, r.url, r.phone, r.type, r.is_primary_crisis, r.sort_order,

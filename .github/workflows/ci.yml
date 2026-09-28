@@ -30,6 +30,7 @@ jobs:
               - 'frontend/**'
             backend:
               - 'backend/**'
+              - 'shared/**'
 
   lint-frontend:
     needs: detect-changes

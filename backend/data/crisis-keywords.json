@@ -1,0 +1,28 @@
+{
+  "_readme": "DRAFT for team review. Phrases are matched as whole words after lowercasing and removing punctuation, so 'bunuh diri' also matches 'aku ingin bunuh diri.'. A match shows the support screen and skips the AI. A false positive only shows a gentle support screen; a miss is worse, so err on the side of including a phrase. Fill in reviewed_by and reviewed_on (YYYY-MM-DD) after the team (ideally with a counsellor) has reviewed the list; npm run db:seed-safety refuses to load it until then.",
+  "reviewed_by": "",
+  "reviewed_on": "",
+  "phrases": [
+    "bunuh diri",
+    "ingin mati",
+    "pengen mati",
+    "mau mati",
+    "lebih baik mati",
+    "mengakhiri hidup",
+    "akhiri hidup",
+    "tidak ingin hidup",
+    "tidak mau hidup",
+    "gak mau hidup",
+    "nggak mau hidup",
+    "ga mau hidup",
+    "menyakiti diri",
+    "melukai diri",
+    "suicide",
+    "suicidal",
+    "kill myself",
+    "end my life",
+    "want to die",
+    "self harm",
+    "hurt myself"
+  ]
+}

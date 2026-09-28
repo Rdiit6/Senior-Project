@@ -8,7 +8,9 @@
 const { test, describe, before, after } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const { Pool } = require('pg');
 const { createApp } = require('../../src/app');
 
@@ -28,11 +30,15 @@ describe('MindMeter API', { skip }, () => {
     json: async () => ({ choices: [{ message: { content: '{"sentiment":"negative","score":0.9,"themes":["sleep","workload"]}' } }] }),
   });
 
+  // Every real response is recorded, then type-checked against shared/contract.ts in the last test.
+  const captured = [];
   const call = async (method, route, { body, token = TOKEN } = {}) => {
     const headers = { 'Content-Type': 'application/json' };
     if (token) headers['X-Anon-Token'] = token;
     const res = await fetch(`${base}${route}`, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
-    return { status: res.status, body: await res.json() };
+    const result = { status: res.status, body: await res.json() };
+    captured.push({ endpoint: `${method} ${route}`, status: result.status, body: result.body });
+    return result;
   };
 
   const waitForAnalysis = async (checkinId) => {
@@ -161,5 +167,40 @@ describe('MindMeter API', { skip }, () => {
     assert.deepEqual(Object.keys(res.body[0]).sort(), ['description', 'id', 'tags', 'title', 'url']);
     assert.equal(res.body[0].url, 'tel:+620000000');
     assert.deepEqual(res.body[1].tags, ['sleep']);
+  });
+
+  // Rule 4 of the development plan: the backend (JavaScript) must match shared/contract.ts exactly.
+  // Every response recorded above is written into a .ts file as `<json> satisfies <ContractType>`
+  // and compiled. A missing, renamed, extra or wrongly-typed field fails this test (and CI).
+  test('every response above matches shared/contract.ts', () => {
+    const TYPE_FOR = {
+      'POST /api/checkins': 'CheckinResponse',
+      'POST /api/checkins/sync': 'SyncResponse',
+      'GET /api/checkins': 'CheckinListResponse',
+      'GET /api/insights': 'InsightResponse',
+      'GET /api/resources': 'ResourcesResponse',
+    };
+    const covered = new Set(captured.filter((c) => c.status < 400).map((c) => c.endpoint));
+    assert.deepEqual([...covered].sort(), Object.keys(TYPE_FOR).sort(), 'every endpoint needs at least one successful sample');
+
+    const contract = path.resolve(__dirname, '..', '..', '..', 'shared', 'contract');
+    const typeNames = [...new Set([...Object.values(TYPE_FOR), 'ApiErrorResponse'])];
+    const lines = [`import type { ${typeNames.join(', ')} } from ${JSON.stringify(contract)};`];
+    captured.forEach((c, i) => {
+      const type = c.status >= 400 ? 'ApiErrorResponse' : TYPE_FOR[c.endpoint];
+      lines.push(`// ${c.status} ${c.endpoint}`, `export const sample${i} = ${JSON.stringify(c.body)} satisfies ${type};`);
+    });
+
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mindmeter-contract-'));
+    const file = path.join(dir, 'responses.ts');
+    fs.writeFileSync(file, lines.join('\n'));
+    try {
+      execFileSync(process.execPath, [require.resolve('typescript/bin/tsc'), '--noEmit', '--strict', '--skipLibCheck',
+        '--target', 'es2022', '--module', 'commonjs', '--moduleResolution', 'node', file], { encoding: 'utf8' });
+    } catch (err) {
+      assert.fail(`API responses do not match shared/contract.ts:\n${err.stdout || err.message}`);
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

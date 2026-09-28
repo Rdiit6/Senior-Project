@@ -1,0 +1,38 @@
+{
+  "_readme": "Support contacts shown on the support/crisis screen. Every entry needs verified_at (YYYY-MM-DD): the date a teammate opened the official page and confirmed the number/link still works. npm run db:seed-safety refuses to load entries without it. Exactly one entry may have is_primary_crisis: true (shown first). type: crisis | counselling | self_help. tags: theme codes (sleep, workload, exams, isolation, relationships, finance, health, motivation).",
+  "resources": [
+    {
+      "title": "FT UGM Wellbeing Center",
+      "description": "Konsultasi psikolog gratis untuk mahasiswa Fakultas Teknik UGM. Gedung SGLC lantai 2, hari kerja.",
+      "phone": "+62 813-9173-7076",
+      "url": "https://ugm.id/KKMFT",
+      "type": "counselling",
+      "is_primary_crisis": true,
+      "tags": ["workload", "exams", "isolation"],
+      "verified_at": "",
+      "source": "https://ft.ugm.ac.id/ft-ugm-sediakan-layanan-konsultasi-karir-dan-kesehatan-mental/"
+    },
+    {
+      "title": "Unit Layanan Kesehatan Mental UGM",
+      "description": "Layanan konseling, skrining, dan penanganan krisis untuk sivitas UGM.",
+      "phone": null,
+      "url": "https://ugm.ac.id/id/layanan-kesehatan-terpadu/",
+      "type": "crisis",
+      "is_primary_crisis": false,
+      "tags": ["isolation", "relationships"],
+      "verified_at": "",
+      "source": "https://ugm.ac.id/id/layanan-kesehatan-terpadu/"
+    },
+    {
+      "title": "Layanan gawat darurat 119",
+      "description": "Nomor darurat nasional (Public Safety Center 119) jika kamu dalam bahaya sekarang.",
+      "phone": "119",
+      "url": null,
+      "type": "crisis",
+      "is_primary_crisis": false,
+      "tags": [],
+      "verified_at": "",
+      "source": "verify on an official Kemenkes page"
+    }
+  ]
+}

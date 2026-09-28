@@ -20,6 +20,10 @@ Node.js + Express + PostgreSQL. The frontend only ever talks to this API, never 
 
 ## Endpoints (frozen contract — change only by team agreement)
 
+The exact types live in [`shared/contract.ts`](../shared/contract.ts), the single source of truth for the frontend.
+The integration tests type-check every real API response against that file, so if the backend and the
+contract drift apart, CI fails. Changing an endpoint = one PR that changes `contract.ts`, the backend and its tests.
+
 | Method | Path | Request | Response |
 |--------|------|---------|----------|
 | POST | `/api/checkins` | `{ mood_value 1-5, note_text?, client_ts? }` | `{ id, saved, insight?, crisis_flag }` |
@@ -48,11 +52,19 @@ Runs **first**, in our own code, before any AI. If a note contains a phrase from
 table, the check-in is saved with `crisis_flag: true`, no insight is returned, and the note is **never**
 sent to the LLM. The client then shows the human support screen unconditionally.
 
-> ⚠️ The keyword list is empty until the team adds it. The server logs a warning while it is empty.
+The keyword list and the support contacts live in two files the team edits:
 
-```sql
-INSERT INTO crisis_keywords (phrase) VALUES ('...'), ('...');  -- lowercase phrases
+| File | What to do before it can be loaded |
+|------|------------------------------------|
+| `data/crisis-keywords.json` | Review the draft list as a team, then fill in `reviewed_by` and `reviewed_on` |
+| `data/resources.json` | For every contact, open the official page, confirm the number/link, then set `verified_at` |
+
+```bash
+npm run db:seed-safety   # refuses to load until both files are reviewed/verified; safe to re-run after edits
 ```
+
+> ⚠️ Until this has been run, the keyword list is empty, crisis detection never triggers, and the server
+> logs a warning on startup. Crisis contacts prefer their phone number (`tel:` link) over their website.
 
 ## Stage 1 — Rule-based AI
 
@@ -97,8 +109,7 @@ npm run db:seed-demo
 # in the browser console on the frontend: localStorage.setItem('<token key>', '<DEMO_ANON_TOKEN>')
 ```
 
-Support contacts are not seeded on purpose: verify each one on the official UGM page first, then insert it
-into `resources` (with `verified_at`).
+Crisis keywords and support contacts: see [Crisis rule](#crisis-rule) (`npm run db:seed-safety`).
 
 ## Tests
 
