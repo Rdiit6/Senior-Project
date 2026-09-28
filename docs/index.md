@@ -86,14 +86,15 @@ Yet the support system is failing to reach those who need it. Only about 20% of 
   | **FR-6** | Generate a plain-language trend insight using transparent rule-based logic, such as identifying a low average mood over the previous seven days or a specified number of consecutive low-mood days. | View Insight | S1 |
   | **FR-7** | Display relevant support or self-help resources based on the detected mood trend. In Stage 2, the system may additionally use detected note themes to improve resource matching. | View Insight / Browse Resources | S1 |
   | **FR-8** | Keep a support or contact option permanently visible and accessible with one tap from every screen. | Access Support | S1 |
-  | **FR-9** | Send the text of a student's note to a pre-trained NLP service and display the returned sentiment and themes on the dashboard. No model training shall be performed by the system. | Analyse Note | S2 |
+  | **FR-9** | Send the text of a student's note from the backend to a pre-trained large language model via OpenRouter and display the returned sentiment and themes on the dashboard. No model training shall be performed by the system. | Analyse Note | S2 |
   | **FR-10** | Clearly state within the application that MindMeter is not a medical or diagnostic tool and shall never provide a medical diagnosis. | Cross-cutting | S1 |
   | **FR-11** | Collect no personally identifying information such as a student's name, email address, or demographic information, using only an anonymous user identifier. | Cross-cutting | S1 |
 
 <br>
 
 - **Entity Relationship Diagram:**
-  ![image alt text](./image/ERD.jpeg) <br> 
+  ![MindMeter ERD](./image/ERD.png) <br>
+  The PostgreSQL schema ([`backend/src/models/schema.sql`](../backend/src/models/schema.sql)) has 8 tables: `users` (anonymous; only a hash of the browser token is stored), `checkins` (one per user per day, with `client_ts` and `source` to support offline sync), `note_analyses` (Stage 2 sentiment result, kept separate so a failed NLP call never blocks saving a check-in), `themes`, `resources`, the join tables `analysis_themes` and `resource_themes`, and `crisis_keywords` (the editable list used by the crisis check). <br>
 
 - **Low-fidelity Wireframe**
     1. Daily Check-in <br>
