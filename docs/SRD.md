@@ -1,6 +1,4 @@
 # MindMeter — Software Requirements Document (SRD)
-
-**Version:** 1.0 · **Date:** 17 Oct 2026 · **Group:** [fill in] · **Course:** IE Senior Project Practicum, DTETI UGM
 **Status:** Proof of Concept. **Not** a medical, diagnostic or clinical product.
 
 Related: [API-CONTRACT.md](./API-CONTRACT.md) · [API-REFERENCE.md](./API-REFERENCE.md) · [PROJECT-PLAN.md](./PROJECT-PLAN.md) · [PR-RULES.md](./PR-RULES.md)
