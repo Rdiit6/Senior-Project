@@ -1,6 +1,4 @@
 # MindMeter API Contract
-
-**Version:** 1.0 (frozen) · **Owners:** Radit (backend, 536801) + Christania (frontend, 532874)
 **Source of truth:** [`shared/contract.ts`](../shared/contract.ts) for the types, plus the backend code and tests for behaviour. This document explains the behaviour in plain language and lists what each side must do. If this file and `shared/contract.ts` ever disagree, `contract.ts` and `backend/tests/integration/api.test.js` win and this file gets fixed in the same PR.
 
 How the two sides stay matched (rules from the team's Development Plan, still in force):
