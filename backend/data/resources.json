@@ -1,38 +1,115 @@
 {
-  "_readme": "Support contacts shown on the support/crisis screen. Every entry needs verified_at (YYYY-MM-DD): the date a teammate opened the official page and confirmed the number/link still works. npm run db:seed-safety refuses to load entries without it. Exactly one entry may have is_primary_crisis: true (shown first). type: crisis | counselling | self_help. tags: theme codes (sleep, workload, exams, isolation, relationships, finance, health, motivation).",
+  "_readme": "Support contacts shown on the support/crisis screen. Every entry in `resources` needs verified_at (YYYY-MM-DD): the date a teammate opened the source link or sent a WhatsApp message and confirmed the contact still works. npm run db:seed-safety refuses to load entries without it. Exactly one entry may have is_primary_crisis: true (shown first). type: crisis | counselling | self_help. tags: theme codes (sleep, workload, exams, isolation, relationships, finance, health, motivation). Crisis contacts return `phone` as a tel: link before `url`, so WhatsApp-only lines must use a wa.me link in `url` and phone: null. `verify_notes` is for the verifier and is not loaded. Research gathered 2026-10-17.",
   "resources": [
     {
+      "title": "MHERL — Layanan Darurat Kesehatan Mental UGM (24 jam)",
+      "description": "Mental Health Emergency Response Line UGM. Chat WhatsApp kapan saja, 24 jam, jika kamu sedang dalam krisis atau butuh bantuan segera.",
+      "phone": null,
+      "url": "https://wa.me/6281329520052",
+      "type": "crisis",
+      "is_primary_crisis": true,
+      "tags": [],
+      "verified_at": "",
+      "source": "https://linktr.ee/mentalhealthUGM (official short link ugm.id/MentalHealthServicesUGM from ugm.ac.id/id/layanan-kesehatan-terpadu/); 24-hour label confirmed on https://karir.feb.ugm.ac.id/konsultasi-psikologi/",
+      "verify_notes": "WhatsApp line (+62 813-2952-0052). Confirm it is still active and 24 hours."
+    },
+    {
+      "title": "Ruang Cerita — Unit Layanan Kesehatan Mental UGM",
+      "description": "Skrining kesehatan mental dan konseling untuk seluruh mahasiswa UGM. Booking jadwal lewat tautan ini, atau chat WhatsApp +62 822-6424-4767.",
+      "phone": null,
+      "url": "https://ugm.id/SkriningAwalRC",
+      "type": "counselling",
+      "is_primary_crisis": false,
+      "tags": ["isolation", "relationships", "workload", "motivation"],
+      "verified_at": "",
+      "source": "https://linktr.ee/mentalhealthUGM",
+      "verify_notes": "Check the booking link opens and the WhatsApp number (+62 822-6424-4767) replies."
+    },
+    {
+      "title": "Poli Psikologi — Klinik GMC UGM",
+      "description": "Konsultasi psikolog gratis untuk seluruh sivitas UGM. Senin–Sabtu 07.30–19.00. Daftar lewat WhatsApp.",
+      "phone": null,
+      "url": "https://wa.me/6281326200342",
+      "type": "counselling",
+      "is_primary_crisis": false,
+      "tags": ["health", "sleep", "isolation"],
+      "verified_at": "",
+      "source": "https://ugm.ac.id/id/layanan-kesehatan-terpadu/ and http://linktr.ee/klinikgmcugm (Poli Psikologi)",
+      "verify_notes": "WhatsApp +62 813-2620-0342. Hours and 'free for all UGM' are from ugm.ac.id."
+    },
+    {
+      "title": "Unit Konsultasi Psikologi (UKP) — Fakultas Psikologi UGM",
+      "description": "Layanan konsultasi psikologi. Fakultas Psikologi UGM, Gedung D lantai 2. Telepon (0274) 550435 ext. 131, email ukp.psikologi@ugm.ac.id.",
+      "phone": "+62 821-3768-0588",
+      "url": "https://ukp.psikologi.ugm.ac.id/",
+      "type": "counselling",
+      "is_primary_crisis": false,
+      "tags": ["relationships", "motivation", "isolation"],
+      "verified_at": "",
+      "source": "https://ukp.psikologi.ugm.ac.id/ and https://ditmawa.ugm.ac.id/prosedur-layanan/layanan-kesehatan-dan-bimbingan-konseling-mahasiswa/",
+      "verify_notes": "+62 821-3768-0588 is labelled 'Layanan Civitas' on the UKP site. Ask whether UGM students pay anything."
+    },
+    {
       "title": "FT UGM Wellbeing Center",
-      "description": "Konsultasi psikolog gratis untuk mahasiswa Fakultas Teknik UGM. Gedung SGLC lantai 2, hari kerja.",
+      "description": "Konsultasi psikolog gratis untuk mahasiswa Fakultas Teknik UGM. Gedung SGLC lantai 2, hari kerja. Daftar lewat tautan ini.",
       "phone": "+62 813-9173-7076",
       "url": "https://ugm.id/KKMFT",
       "type": "counselling",
-      "is_primary_crisis": true,
+      "is_primary_crisis": false,
       "tags": ["workload", "exams", "isolation"],
       "verified_at": "",
-      "source": "https://ft.ugm.ac.id/ft-ugm-sediakan-layanan-konsultasi-karir-dan-kesehatan-mental/"
+      "source": "https://ft.ugm.ac.id/ft-ugm-sediakan-layanan-konsultasi-karir-dan-kesehatan-mental/ and https://hpu.ugm.ac.id/info-layanan/",
+      "verify_notes": "Number conflict: the 2024 FT article gives +62 813-9173-7076; ft.ugm.ac.id/konseling-psikologi shows the general 'Layanan Terpadu' WA +62 852-9099-4065. Confirm which reaches counselling."
     },
     {
-      "title": "Unit Layanan Kesehatan Mental UGM",
-      "description": "Layanan konseling, skrining, dan penanganan krisis untuk sivitas UGM.",
-      "phone": null,
-      "url": "https://ugm.ac.id/id/layanan-kesehatan-terpadu/",
-      "type": "crisis",
-      "is_primary_crisis": false,
-      "tags": ["isolation", "relationships"],
-      "verified_at": "",
-      "source": "https://ugm.ac.id/id/layanan-kesehatan-terpadu/"
-    },
-    {
-      "title": "Layanan gawat darurat 119",
-      "description": "Nomor darurat nasional (Public Safety Center 119) jika kamu dalam bahaya sekarang.",
-      "phone": "119",
-      "url": null,
+      "title": "Layanan Darurat Kampus UGM (PK4L)",
+      "description": "Jika ada bahaya atau kejadian darurat SEKARANG di lingkungan kampus. Dari telepon kampus: 1234.",
+      "phone": "(0274) 649-1234",
+      "url": "https://pk4l.ugm.ac.id/",
       "type": "crisis",
       "is_primary_crisis": false,
       "tags": [],
       "verified_at": "",
-      "source": "verify on an official Kemenkes page"
+      "source": "https://hpu.ugm.ac.id/info-layanan/ (Emergency Call Center, managed by PK4L) and https://ugm.ac.id/id/layanan-kesehatan-terpadu/",
+      "verify_notes": "For incidents happening now, not for past complaints."
+    },
+    {
+      "title": "Healing119 — Kementerian Kesehatan RI",
+      "description": "Layanan konseling kesehatan jiwa nasional, gratis. Telepon 119 lalu tekan 8, atau chat lewat WhatsApp di situs ini.",
+      "phone": null,
+      "url": "https://www.healing119.id/",
+      "type": "crisis",
+      "is_primary_crisis": false,
+      "tags": ["isolation"],
+      "verified_at": "",
+      "source": "https://kesprimkom.kemkes.go.id/konten/158/151/0/cegah-bunuh-diri-dukung-kesehatan-jiwa-kenali-layanan-healing119-id",
+      "verify_notes": "Do NOT put 119 in phone: a tel:119 link dials the ambulance line, not extension 8. Kemenkes says 'pagi hingga malam' (not 24/7)."
     }
-  ]
+  ],
+  "faculty_directory": {
+    "_readme": "NOT loaded into the app. Faculty services mostly serve only their own faculty's students, so showing all of them to everyone would send students to services that turn them away. Kept for a future 'pick your faculty' feature (needs a faculty column in resources + a contract change). Main source: https://hpu.ugm.ac.id/info-layanan/ (UGM's own directory). Gathered 2026-10-17; verify before use.",
+    "counselling": [
+      { "faculty": "Biologi", "register": "http://ugm.id/konselingbiologi", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Ekonomika dan Bisnis (FEB)", "register": "SINTESIS portal academics.feb.ac.id/portalmhs (menu Konsultasi)", "whatsapp": "0811-2843-884", "email": "swpdc.feb@ugm.ac.id", "source": "https://karir.feb.ugm.ac.id/konsultasi-psikologi/", "note": "Page also links wa.me/628112975295 as 'Hubungi Kami'; confirm which is current." },
+      { "faculty": "Farmasi", "register": "http://bit.ly/konseling-farmasi", "instagram": "@plpfarmasiugm", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Hukum", "register": "https://bit.ly/DaftarKonselingHPUFHUGM", "whatsapp": "+62 821-3617-5361", "source": "https://law.ugm.ac.id/en/bisa-konseling-gratis-fakultas-hukum-universitas-gadjah-mada-buka-layanan-dukungan-psikologis/", "note": "4 free sessions per semester (2024 article)." },
+      { "faculty": "Ilmu Sosial dan Politik (Fisipol)", "register": "http://ugm.id/KonselingFISIPOLUGM", "source": "https://hpu.ugm.ac.id/info-layanan/", "note": "Fisipol CDC page is from 2018; use the HPU link." },
+      { "faculty": "Kedokteran, Kesehatan Masyarakat, dan Keperawatan (FK-KMK)", "register": "http://ugm.id/daftarkonselingfkkmk", "whatsapp": "0811-2570-027", "instagram": "@konselingfkkmkugm", "source": "https://fkkmk.ugm.ac.id/layanan-psikologi/", "note": "Page last updated 2023." },
+      { "faculty": "Kedokteran Gigi (FKG)", "register": "http://ugm.id/HPUSenyumMental", "source": "https://fkg.ugm.ac.id/fkg-ugm-sediakan-layanan-konsultasi-psikologi-guna-dukung-kesehatan-mental/", "note": "Free, started May 2026." },
+      { "faculty": "Matematika dan Ilmu Pengetahuan Alam (FMIPA)", "register": "http://ugm.id/KonselingHPUFMIPA", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Pertanian", "register": "http://ugm.id/individualcounselingfapertaugm", "whatsapp": "+62 811-368-875", "source": "https://hpu.ugm.ac.id/info-layanan/", "note": "WhatsApp is the faculty's HPU call centre (earlier Faperta article)." },
+      { "faculty": "Teknik", "register": "http://ugm.id/KKMFT", "source": "https://hpu.ugm.ac.id/info-layanan/", "note": "Also in `resources` as FT UGM Wellbeing Center." },
+      { "faculty": "Sekolah Vokasi", "register": "http://ugm.id/PendaftaranKonselingSV", "instagram": "@mentalcaresvugm", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Sekolah Pascasarjana", "register": "http://ugm.id/LayananKonsultasiPsikologSPs", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Geografi — Pembangunan Wilayah (department only)", "whatsapp": "0812-4233-8080", "source": "https://pw.geo.ugm.ac.id/layanan-pengaduan/", "note": "Student Well-Being line for one department, not the whole faculty." }
+    ],
+    "peer_counsellors": [
+      { "faculty": "Ilmu Budaya (FIB)", "register": "https://bit.ly/ReservasiKonselingKESMEN", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Kehutanan", "info": "https://bit.ly/m/TemanRimbawan", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Teknologi Pertanian", "info": "Instagram link incomplete on the HPU page", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Teknik", "instagram": "@temancerita_ft", "source": "https://hpu.ugm.ac.id/info-layanan/" },
+      { "faculty": "Unit Kesehatan Mahasiswa (Ukesma, PIK-M)", "info": "https://ukesma.ukm.ugm.ac.id/pik-m/", "source": "https://hpu.ugm.ac.id/info-layanan/" }
+    ],
+    "not_found": ["Filsafat", "Kedokteran Hewan", "Peternakan", "Psikologi (students can use UKP)", "Geografi (faculty level)"]
+  }
 }
