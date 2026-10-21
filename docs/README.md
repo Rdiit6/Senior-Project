@@ -19,7 +19,7 @@ This folder is the single source of truth for how we build MindMeter. If code an
 | Person | Role | Owns |
 |--------|------|------|
 | Nalen (536801) | Cloud Engineer + Backend + AI logic | API, DB, rule-based insights, crisis check, OpenRouter call, Azure, deploy, seed data |
-| Christania (532874) | Frontend / Software Engineer | Next.js app in JavaScript, API calls, offline queue + sync, loading/empty/error states |
+| Christania (532874) | Frontend / Software Engineer | Next.js + TypeScript app, API calls, offline queue + sync, loading/empty/error states |
 | Arya (536660) | UI/UX Designer | Wireframes, visual design, screens, copy tone, design handoff, usability testing |
 
 ## Repo layout (target)
@@ -28,9 +28,9 @@ This folder is the single source of truth for how we build MindMeter. If code an
 /
 ├─ backend/            Node 22 + Express 5 (JavaScript, tests with node:test)
 │  └─ src/models/schema.sql
-├─ frontend/           Next.js (JavaScript)
+├─ frontend/           Next.js + TypeScript
 ├─ shared/
-│  └─ contract.ts      Types only, the single source of truth (FE uses them via JSDoc in src/lib/api.js, SRD DR-07)
+│  └─ contract.ts      TS types only, the single source of truth (FE imports via src/lib/api.ts)
 ├─ docs/
 │  ├─ README.md  SRD.md  API-CONTRACT.md  API-REFERENCE.md  PR-RULES.md  PROJECT-PLAN.md
 │  └─ image/ERD.png
