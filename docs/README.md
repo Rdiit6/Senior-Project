@@ -18,7 +18,7 @@ This folder is the single source of truth for how we build MindMeter. If code an
 
 | Person | Role | Owns |
 |--------|------|------|
-| Radit (536801) | Cloud Engineer + Backend + AI logic | API, DB, rule-based insights, crisis check, OpenRouter call, Azure, deploy, seed data |
+| Nalen (536801) | Cloud Engineer + Backend + AI logic | API, DB, rule-based insights, crisis check, OpenRouter call, Azure, deploy, seed data |
 | Christania (532874) | Frontend / Software Engineer | Next.js + TypeScript app, API calls, offline queue + sync, loading/empty/error states |
 | Arya (536660) | UI/UX Designer | Wireframes, visual design, screens, copy tone, design handoff, usability testing |
 
