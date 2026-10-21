@@ -8,9 +8,9 @@ This folder is the single source of truth for how we build MindMeter. If code an
 
 | # | File | What it answers | Owner |
 |---|------|-----------------|-------|
-| 1 | [SRD.md](./SRD.md) | What are we building, for whom, and how do we know it is done? | Radit |
-| 2 | [API-CONTRACT.md](./API-CONTRACT.md) | The rules FE and BE both obey (types, errors, headers, behaviours). **Frozen.** | Radit + Christania |
-| 3 | [API-REFERENCE.md](./API-REFERENCE.md) | Per-endpoint requests/responses/curl. Copy-paste for FE mocks and BE tests. | Radit |
+| 1 | [SRD.md](./SRD.md) | What are we building, for whom, and how do we know it is done? | Nalen |
+| 2 | [API-CONTRACT.md](./API-CONTRACT.md) | The rules FE and BE both obey (types, errors, headers, behaviours). **Frozen.** | Nalen + Christania |
+| 3 | [API-REFERENCE.md](./API-REFERENCE.md) | Per-endpoint requests/responses/curl. Copy-paste for FE mocks and BE tests. | Nalen |
 | 4 | [PR-RULES.md](./PR-RULES.md) | Branches, commits, PRs, reviews, CI, merging. | All |
 | 5 | [PROJECT-PLAN.md](./PROJECT-PLAN.md) | Week-by-week plan and GitHub issue breakdown. | All |
 

@@ -35,7 +35,7 @@ contract/all-07-add-days-query
 
 - `type`: `feat | fix | docs | chore | refactor | test | ci | contract`
 - `area`: `be | fe | ux | infra | all`
-- Lowercase, hyphens, no spaces, no personal names or bare numbers **for these task branches**. The one exception is each member's NIU branch (e.g. Radit's `536801`), which is kept as described in §15.
+- Lowercase, hyphens, no spaces, no personal names or bare numbers **for these task branches**. The one exception is each member's NIU branch (e.g. Nalen's `536801`), which is kept as described in §15.
 
 ## 3. Commits — Conventional Commits
 
@@ -60,7 +60,7 @@ Examples: `feat(be): add POST /api/checkins with upsert per day`, `fix(fe): keep
 | Size | Target **≤ 400 changed lines** (excluding lockfiles, generated files, seed data). Larger → split or justify in the PR. |
 | Draft early | Open a **Draft PR** after your first push so others can see direction. Mark *Ready for review* only when the checklist is complete. |
 | Title | Same format as a commit: `feat(be): add POST /api/checkins`. It becomes the squash commit. |
-| Evidence | UI changes: screenshot or short screen recording (mobile width). API changes: request/response example or test output. |
+| Evidence | UI changes: screenshot or short screen recording (desktop width, 1280 px or wider). API changes: request/response example or test output. |
 | Tests | New logic ships with tests (see §7). If not testable, say why. |
 | Self-review | Read your own diff on GitHub before requesting review. |
 | Conflicts | Author rebases/merges `main` into the branch and resolves conflicts. |
@@ -70,14 +70,14 @@ Examples: `feat(be): add POST /api/checkins with upsert per day`, `fix(fe): keep
 
 | PR touches | Author | Required reviewer(s) |
 |------------|--------|----------------------|
-| Backend / DB / Azure | Radit | Christania (reads for contract match and clarity) |
-| Frontend | Christania | Radit (API usage, error handling) |
+| Backend / DB / Azure | Nalen | Christania (reads for contract match and clarity) |
+| Frontend | Christania | Nalen (API usage, error handling) |
 | UI design assets, tokens, copy | Arya | Christania (feasibility) |
-| **API contract / shared types** (`contract-change`) | anyone | **Radit AND Christania**, plus Arya if user-facing copy changes |
+| **API contract / shared types** (`contract-change`) | anyone | **Nalen AND Christania**, plus Arya if user-facing copy changes |
 | **Crisis keywords, crisis logic, resource contacts** (`safety`) | anyone | **All other two members** (2 approvals) |
 | Docs only | anyone | any one other member |
 
-Pros / cons of mandatory cross-review: it catches contract drift early and spreads knowledge (the bus-factor on Azure/backend is Radit alone otherwise), but it costs time and a non-expert reviewer may rubber-stamp. Mitigation: reviewer must answer the three checklist questions in §12, not just click Approve.
+Pros / cons of mandatory cross-review: it catches contract drift early and spreads knowledge (the bus-factor on Azure/backend is Nalen alone otherwise), but it costs time and a non-expert reviewer may rubber-stamp. Mitigation: reviewer must answer the three checklist questions in §12, not just click Approve.
 
 Review etiquette: comment on the code, not the person; label comments `nit:` (optional) vs `blocking:`; the author resolves threads.
 
@@ -113,7 +113,7 @@ The contract (`docs/API-CONTRACT.md`, `shared/contract.ts`) is frozen at v1.0. T
 
 1. Open an issue labelled `contract-change` describing the problem and the proposal.
 2. Open a PR touching **both** the doc and `shared/contract.ts`; bump the version in the doc header and add a line to its changelog.
-3. Both Radit and Christania approve. Merge. Announce in chat.
+3. Both Nalen and Christania approve. Merge. Announce in chat.
 4. Both sides then update their code in follow-up PRs. Additive, optional fields are preferred over breaking changes.
 
 ## 9. Safety & security rules (non-negotiable)
@@ -160,7 +160,7 @@ Closes #
 - [ ] Tests added/updated, CI green
 - [ ] Docs updated (API-CONTRACT / API-REFERENCE / SRD if behaviour changed)
 - [ ] No secrets, tokens, or real note text in code, logs, tests, screenshots
-- [ ] UI: screenshot at mobile width attached; support entry still visible
+- [ ] UI: screenshot at desktop width attached; support entry still visible
 - [ ] Contract: matches `shared/contract.ts` (or labelled `contract-change`)
 - [ ] Base branch is `dev` (only the final merge goes to `main`) and my NIU branch is synced with it (§15)
 
@@ -201,7 +201,7 @@ Closes #
 2. PR reviewed, CI green, squash-merged into `dev` (see §15). `main` only receives the final merge.
 3. Deployed to Azure staging/production **if** it affects the running app, and smoke-tested.
 4. Docs updated. Issue closed automatically by `Closes #n`.
-5. Works at mobile width with the support entry visible (FE) / never logs notes (BE).
+5. Works at desktop width with the support entry visible (FE) / never logs notes (BE).
 
 ---
 
@@ -213,7 +213,7 @@ Closes #
 
 | Topic | Rule in §1–§14 | With the addendum |
 |-------|----------------|-------------------|
-| Who has a branch | Short-lived task branches | **Each member keeps one personal branch named by their NIU** (Radit: `536801`). Nothing is renamed. Task branches (§2 naming) stay valid for anything else (hotfix, docs, a parallel task). |
+| Who has a branch | Short-lived task branches | **Each member keeps one personal branch named by their NIU** (Nalen: `536801`). Nothing is renamed. Task branches (§2 naming) stay valid for anything else (hotfix, docs, a parallel task). |
 | Where PRs go | `main` | **`dev`**. Nothing goes to `main` until the final merge. |
 | `main` | Updated by every merged PR | Updated **once, at the end**, when `dev` is done and merged into it (§15.6). **Not protected** (team decision, §15.7). Weekly tags `week-N` go on `dev`. |
 | Merge style | Squash only | **Unchanged for PRs into `dev` (squash).** One exception: the final `dev` → `main` merge uses "merge commit" (§15.5 P7). |
@@ -233,12 +233,12 @@ Closes #
 |--------|-------|-------|
 | `main` | nobody, until the final merge | Final state only. **Not protected** (team decision), so keeping it clean is a team rule, not a GitHub setting (R8). |
 | `dev` | nobody pushes directly | Integration + the live/demo app until the final merge. Protected. Created once from `main` (§15.7). |
-| `536801` | Radit | NIU branch. Only the owner pushes. |
+| `536801` | Nalen | NIU branch. Only the owner pushes. |
 | `<NIU>` (Christania) | Christania | Fill in: `______` |
 | `<NIU>` (Arya) | Arya | Fill in: `______` |
 | `<NIU>-<type>-<issue#>-<slug>` | owner | Optional short-lived sub-branch, e.g. `536801-feat-13-sync-endpoint`. Use a **dash, not `/`**: git cannot have both `536801` and `536801/feat-13`. |
 
-## 15.3 The flow (Radit's example; others use their own NIU)
+## 15.3 The flow (Nalen's example; others use their own NIU)
 
 ```bash
 # 0. start of every work session, and before starting a new issue
@@ -308,7 +308,7 @@ git push origin --delete 536801-feat-13-sync-endpoint
 | P4 | **PRs get too big** | Issues pile up on one branch | R2, R5, and open the PR as soon as the issue is done. |
 | P5 | **`Closes #n` does not close the issue** | GitHub only auto-closes on PRs merged into the **default branch** | **Set `dev` as the default branch** (Settings → General). Fallback: keep `main` as default and close issues by hand at each Friday checkpoint. (Also useful here: with `main` untouched until the end, a default of `main` would show an empty-looking repo to visitors.) |
 | P6 | **Branch name no longer shows which task it is** | NIU is a person, not a task | R7, plus the PR title in conventional format and milestone/issue links. |
-| P7 | **Final merge goes wrong, or `main` gets touched by accident** | `main` has no protection, so a stray push, force-push or squash is possible; squashing all of `dev` into one commit would also throw away the per-PR history | The final `dev` → `main` uses **"Create a merge commit"** (keeps history, no rewrite). Until then R8. Only Radit does the final merge. If a second merge is needed later (P0 fix after the final merge), repeat the same way. |
+| P7 | **Final merge goes wrong, or `main` gets touched by accident** | `main` has no protection, so a stray push, force-push or squash is possible; squashing all of `dev` into one commit would also throw away the per-PR history | The final `dev` → `main` uses **"Create a merge commit"** (keeps history, no rewrite). Until then R8. Only Nalen does the final merge. If a second merge is needed later (P0 fix after the final merge), repeat the same way. |
 | P8 | **Hotfix** | Before the final merge `main` has nothing unreleased | Hotfix = a normal PR into `dev` (§10). After the final merge, fix via `dev`, then merge to `main` again. No back-merge needed. |
 | P9 | **Shared files collide** (`shared/contract.ts`, lockfiles, docs) | Several branches edit them | `CODEOWNERS`; contract changes only as their own small PR (§8, target `dev`); on a lockfile conflict take `dev`'s version and run `npm install`, never hand-edit it. |
 | P10 | **Review bottleneck** | Three people | 24 h SLA (§4), review matrix (§5), draft PRs for early feedback, sub-branches so nobody is blocked while waiting. |
@@ -316,7 +316,7 @@ git push origin --delete 536801-feat-13-sync-endpoint
 
 ## 15.6 Friday checkpoint (every week) and the final merge to `main` (once)
 
-**Every Friday, on `dev` (Radit tags; no PR to `main`):**
+**Every Friday, on `dev` (Nalen tags; no PR to `main`):**
 
 1. Smoke-test the running app built from `dev`: `/health`, check-in, crisis path, offline sync.
 2. Tag the checkpoint so we can roll back to the last good demo:
@@ -327,10 +327,10 @@ git push origin --delete 536801-feat-13-sync-endpoint
    ```
 3. Everyone syncs their NIU branch (R1).
 
-**Final merge (Radit), only when `dev` is finished:** planned for the code freeze (Fri 11 Dec, see PROJECT-PLAN).
+**Final merge (Nalen), only when `dev` is finished:** planned for the code freeze (Fri 11 Dec, see PROJECT-PLAN).
 
 1. Run the acceptance tests (SRD §9) on the app built from `dev`.
-2. Open PR **`dev` → `main`** titled `final: MindMeter v1.0`; another member checks it; Radit merges with **"Create a merge commit"** (not squash, P7).
+2. Open PR **`dev` → `main`** titled `final: MindMeter v1.0`; another member checks it; Nalen merges with **"Create a merge commit"** (not squash, P7).
 3. Tag `final` on `main`: `git fetch origin && git tag -a final origin/main -m "Final submission" && git push origin final`.
 4. If a P0 bug is found afterwards (W9 buffer): fix through your NIU branch → `dev`, then repeat steps 2–3 with a new tag (`final-1`).
 
@@ -338,7 +338,7 @@ git push origin --delete 536801-feat-13-sync-endpoint
 
 ## 15.7 Settings
 
-**One-time setup (Radit, Week 1):**
+**One-time setup (Nalen, Week 1):**
 
 ```bash
 git switch main && git pull
@@ -364,7 +364,7 @@ Pull request merge methods (Settings → General): enable **squash** (used for N
 | Block deletion | n/a | ✅ | n/a |
 | Auto-delete head branches | n/a | n/a | **off** (NIU branches live on; delete sub-branches by hand) |
 
-CI (§7) runs on every pull request and on pushes to `dev` and `main` (see `.github/workflows/ci.yml`); it does not run on plain pushes to NIU branches, so open the PR early to get CI feedback. The `deploy-azure` job should trigger on push to `dev` (PROJECT-PLAN MM-103). `CODEOWNERS`: `backend/` and `.github/` → Radit; `frontend/` → Christania; design docs/assets → Arya; `shared/` and `docs/API-*.md` → Radit + Christania.
+CI (§7) runs on every pull request and on pushes to `dev` and `main` (see `.github/workflows/ci.yml`); it does not run on plain pushes to NIU branches, so open the PR early to get CI feedback. The `deploy-azure` job should trigger on push to `dev` (PROJECT-PLAN MM-103). `CODEOWNERS`: `backend/` and `.github/` → Nalen; `frontend/` → Christania; design docs/assets → Arya; `shared/` and `docs/API-*.md` → Nalen + Christania.
 
 ## 15.8 Pros and cons of this addendum
 
@@ -375,7 +375,7 @@ CI (§7) runs on every pull request and on pushes to `dev` and `main` (see `.git
 | No process overhead on `main`: no release PRs, no weekly merge ceremony; weekly progress is shown with tags on `dev` | **`main` has no technical protection**: one accidental push, force-push, or deletion could damage the branch that is graded as final. We rely on R8. |
 | If it hurts by Week 4, drop the NIU branch step: use §2 task branches straight into `dev` | `main` looks empty/stale until the end; mitigated by making `dev` the default branch |
 
-**Optional safeguard that adds no process:** a branch rule on `main` that only blocks force-push and deletion (no PR requirement, no approvals, so it does not slow anyone). It is not enabled by default because the team decided against protecting `main`; Radit can turn it on in one minute if the team agrees.
+**Optional safeguard that adds no process:** a branch rule on `main` that only blocks force-push and deletion (no PR requirement, no approvals, so it does not slow anyone). It is not enabled by default because the team decided against protecting `main`; Nalen can turn it on in one minute if the team agrees.
 
 ## 15.9 Recovery cheat-sheet
 

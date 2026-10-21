@@ -33,7 +33,7 @@ Students (users) · the 3-person team · course lecturers (graders) · UGM wellb
 ## 2. Overall description
 
 ### 2.1 Context and technologies
-Client (Next.js + TypeScript, mobile-first) ↔ REST over HTTPS ↔ API (Node.js + Express, Azure App Service) ↔ Azure Database for PostgreSQL. The API calls OpenRouter (LLM) server-side. This covers the three required technologies:
+Client (Next.js + TypeScript, desktop-first) ↔ REST over HTTPS ↔ API (Node.js + Express, Azure App Service) ↔ Azure Database for PostgreSQL. The API calls OpenRouter (LLM) server-side. This covers the three required technologies:
 
 | Technology | How MindMeter uses it |
 |------------|-----------------------|
@@ -45,7 +45,7 @@ Client (Next.js + TypeScript, mobile-first) ↔ REST over HTTPS ↔ API (Node.js
 UGM students, mostly on phones, often on slow or intermittent wifi, possibly stressed. Low tolerance for friction. No technical skill assumed.
 
 ### 2.3 Operating environment
-Latest two versions of mobile Chrome and Safari plus desktop Chrome/Firefox/Edge. Viewport from 360 px wide.
+Latest two versions of desktop Chrome, Firefox and Edge, at 1280 px wide and up (designs use a 1440 px frame). **Desktop first:** mobile browsers and phone widths (360 px) are deferred to a later phase. Pages should not break on a phone, but phone layouts are not designed or acceptance-tested in this phase.
 
 ### 2.4 Constraints
 - One-semester timeline, 3 beginners. Deployed on the department's Azure account.
@@ -54,6 +54,7 @@ Latest two versions of mobile Chrome and Safari plus desktop Chrome/Firefox/Edge
 - Free/low-tier Azure and OpenRouter budget.
 
 ### 2.5 Assumptions
+- **Desktop first (team decision, 21 Oct 2026):** design and acceptance target desktop browsers (1440 px design frame, 1280 px minimum). Mobile layouts are out of scope for this phase.
 - Students have a browser; JavaScript and `localStorage` enabled.
 - A verified list of UGM crisis contacts and a keyword list will be provided by the team (open items O4, O5).
 - Approximate demo date mid-December 2026 (confirm with lecturers; see PROJECT-PLAN).
@@ -70,7 +71,7 @@ Priority: **M** Must · **S** Should · **C** Could. Each has acceptance criteri
 | FR-04 | M | **Anonymous identity** via browser token; no name/email/demographics. | AC: no PII fields in DB/API; token stored hashed (SHA-256); app works with no sign-in. |
 | FR-05 | M | **Crisis detection before AI.** Backend keyword check on every note, before any LLM call. | AC: crisis phrase → `crisis_flag: true`, LLM not called, covered by unit tests for English and Indonesian variants (users may write in either). |
 | FR-06 | M | **Crisis screen.** When `crisis_flag` is true the FE shows a full-screen support view immediately. | AC: shows verified contacts first; one tap to call/open; cannot be dismissed accidentally by the check-in confirmation. |
-| FR-07 | M | **Always-visible support entry** on every screen. | AC: visible without scrolling at 360 px on all routes, including offline. |
+| FR-07 | M | **Always-visible support entry** on every screen. | AC: visible without scrolling at desktop width (1280 px and up) on all routes, including offline. The 360 px check moves to the mobile phase. |
 | FR-08 | M | **Mood dashboard.** Chart of the user's check-ins (7 and 30 day views) and history list. | AC: correct points per Jakarta day; empty state for no data; loads < 2 s on 4G. |
 | FR-09 | M | **Rule-based trend insight** per API-CONTRACT §5.5 with plain-language, non-diagnostic messages. | AC: unit tests for each trend row and boundaries; messages approved by UX; no diagnostic words. |
 | FR-10 | M | **Resource cards** matched to trend/themes; `crisis`-tagged first when `low`. | AC: `GET /api/resources` and `/api/insights` return verified entries; links open correctly. |
@@ -144,7 +145,7 @@ Won't (this PoC): login, reminders (schema columns exist, no sending), campus ag
 | AT-04 | Airplane mode → 3 check-ins → reconnect | Queue empties, 3 correct days, no duplicates |
 | AT-05 | Kill OpenRouter key/network | Check-in still saves, dashboard works, themes empty |
 | AT-06 | Demo account | Populated chart, a trend message, themes, resources |
-| AT-07 | Support entry on every screen at 360 px | Always visible and working |
+| AT-07 | Support entry on every screen at desktop width (1280 px) | Always visible and working |
 | AT-08 | 101 rapid requests in a minute from one IP (only once rate limiting is added, PROJECT-PLAN MM-601; stretch goal) | `429` after the limit, app recovers |
 | AT-09 | Inspect logs after AT-01…AT-05 | No note text, token or hash present |
 | AT-10 | Fresh deploy on Azure then `/health` | HTTP 200 from `/health` |
