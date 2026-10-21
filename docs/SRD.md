@@ -33,7 +33,7 @@ Students (users) · the 3-person team · course lecturers (graders) · UGM wellb
 ## 2. Overall description
 
 ### 2.1 Context and technologies
-Client (Next.js + TypeScript, mobile-first) ↔ REST over HTTPS ↔ API (Node.js + Express, Azure App Service) ↔ Azure Database for PostgreSQL. The API calls OpenRouter (LLM) server-side. This covers the three required technologies:
+Client (Next.js + TypeScript, desktop-first) ↔ REST over HTTPS ↔ API (Node.js + Express, Azure App Service) ↔ Azure Database for PostgreSQL. The API calls OpenRouter (LLM) server-side. This covers the three required technologies:
 
 | Technology | How MindMeter uses it |
 |------------|-----------------------|
@@ -45,7 +45,7 @@ Client (Next.js + TypeScript, mobile-first) ↔ REST over HTTPS ↔ API (Node.js
 UGM students, mostly on phones, often on slow or intermittent wifi, possibly stressed. Low tolerance for friction. No technical skill assumed.
 
 ### 2.3 Operating environment
-Latest two versions of mobile Chrome and Safari plus desktop Chrome/Firefox/Edge. Viewport from 360 px wide.
+Latest two versions of desktop Chrome, Firefox and Edge, at 1280 px wide and up (designs use a 1440 px frame). **Desktop first:** mobile browsers and phone widths (360 px) are deferred to a later phase. Pages should not break on a phone, but phone layouts are not designed or acceptance-tested in this phase.
 
 ### 2.4 Constraints
 - One-semester timeline, 3 beginners. Deployed on the department's Azure account.
@@ -54,9 +54,78 @@ Latest two versions of mobile Chrome and Safari plus desktop Chrome/Firefox/Edge
 - Free/low-tier Azure and OpenRouter budget.
 
 ### 2.5 Assumptions
+- **Desktop first (team decision, 21 Oct 2026):** design and acceptance target desktop browsers (1440 px design frame, 1280 px minimum). Mobile layouts are out of scope for this phase.
 - Students have a browser; JavaScript and `localStorage` enabled.
 - A verified list of UGM crisis contacts and a keyword list will be provided by the team (open items O4, O5).
 - Approximate demo date mid-December 2026 (confirm with lecturers; see PROJECT-PLAN).
+
+### 2.6 System architecture
+
+MindMeter is a three-tier web app: a Next.js + TypeScript frontend, a Node.js + Express REST API in JavaScript, and a PostgreSQL database, all on Azure. The API calls OpenRouter for the optional note analysis. Every connection is HTTPS and JSON. The full integration details are in `docs/MindMeter_Integration_Guide.pdf`.
+
+```mermaid
+flowchart LR
+  subgraph Browser["Student's browser (desktop)"]
+    UI["Next.js pages (TypeScript)<br/>landing, check-in, dashboard, support"]
+    LIB["src/lib<br/>api.ts (only file that calls the API)<br/>anonToken.ts, syncQueue.ts"]
+    LS[("localStorage<br/>mindmeter_anon_token<br/>mindmeter_sync_queue")]
+    UI --> LIB
+    LIB <--> LS
+  end
+  subgraph Azure["Microsoft Azure (department account)"]
+    SWA["Azure Static Web Apps<br/>static export of the frontend"]
+    API["Azure App Service<br/>Node.js 22 + Express 5"]
+    DB[("Azure Database for PostgreSQL<br/>8 tables, SSL")]
+  end
+  LLM["OpenRouter<br/>LLM, JSON only"]
+  C["shared/contract.ts<br/>types for all 5 endpoints"]
+  SWA -. serves pages .-> UI
+  LIB -- "HTTPS + JSON, X-Anon-Token" --> API
+  API --> DB
+  API -- "async, non-crisis notes only" --> LLM
+  C -. "checked at compile time (tsc)" .- LIB
+  C -. "checked at test time (CI)" .- API
+```
+
+**Network boundary rule:** everything that crosses between frontend and backend is typed in `shared/contract.ts`. No component calls `fetch` directly, only `lib/api.ts` does, and nothing on the frontend touches the database. If the API changes there is exactly one file per side to update, and CI proves they still match.
+
+#### 2.6.1 Components
+
+| Layer | Technology | Location in repo | Responsibility |
+|-------|------------|------------------|----------------|
+| Pages and components | Next.js App Router, client-rendered pages, TypeScript | `frontend/src/app/` (planned) | Screens from the Figma hi-fi designs with loading, empty, error, offline and crisis states |
+| API client | TypeScript, `import type` from `shared/contract.ts` | `frontend/src/lib/api.ts` (reference: `docs/integration/reference-lib/`) | The only file that calls the backend. Sends `X-Anon-Token` (not for `/api/resources`), throws `ApiError` or `NetworkError` |
+| Anonymous identity | TypeScript | `frontend/src/lib/anonToken.ts` | Random UUID kept in `mindmeter_anon_token`. Never sent anywhere except the header |
+| Offline queue | TypeScript | `frontend/src/lib/syncQueue.ts` | `submitOrQueue()` on the check-in screen, `startAutoSync()` once in the root layout. Queue in `mindmeter_sync_queue` |
+| Contract | Types only, no runtime code | `shared/contract.ts` | Single source of truth for requests, responses, errors and storage keys. Frozen at v1.0 |
+| HTTP layer | Express 5, helmet, cors, JSON body limit 32 kb | `backend/src/app.js`, `backend/src/api/`, `backend/src/middleware/` | Routing, request validation, anonymous user lookup (token is hashed), error shape `{ error: { code, message } }` |
+| Services | JavaScript | `backend/src/services/` | `checkinService` (crisis check, then save, then trend, then NLP later), `crisisService`, `insightService`, `nlpService` |
+| Rules | JavaScript | `backend/src/logic/` | `crisisCheck`, `trendRules` (rule-based AI), `checkDate` (Jakarta calendar day) |
+| Data access | `pg` with parameterized queries | `backend/src/models/`, `backend/src/db/pool.js` | The only place with SQL. One check-in per user per day |
+| Database | Azure Database for PostgreSQL | `backend/src/models/schema.sql` | 8 tables, ERD in `docs/image/ERD.png` |
+| LLM | OpenRouter, model from `OPENROUTER_MODEL` | called from `nlpService` | Sentiment and themes from a fixed list. Never on the crisis path, never in the request path |
+
+#### 2.6.2 Main flows
+
+1. **Check-in.** The page calls `submitOrQueue()`, which sends `POST /api/checkins` through `api.ts`. The backend (1) runs the crisis keyword check on the note before any AI, (2) saves the check-in with its `crisis_flag`, one row per Jakarta day, then either stops and returns `{ saved: true, crisis_flag: true }` with no insight, so the frontend shows the full-screen support view and nothing else (FR-05, FR-06), or (3) returns the rule-based insight and (4) analyses the note with the LLM later in the background (FR-09, FR-12). `CheckinResponse` is a union type, so TypeScript will not let the frontend read `insight` before checking `crisis_flag`.
+2. **Offline check-in and sync (the networking feature).** If the request fails with `NetworkError`, `syncQueue.ts` appends `{ mood_value, note_text, client_ts }` to `mindmeter_sync_queue` and the page shows the "saved on this device" state. On page load and on the browser's `online` event the queue is read (items older than 29 days dropped) and sent to `POST /api/checkins/sync` in batches of up to 50. The answer comes back in the same order, items with `saved: true` are removed, and if any item has `crisis_flag: true` the support screen opens. Re-sending the same queue is safe because the server keeps one check-in per day and the newer `client_ts` wins (FR-11, DR-04).
+3. **Dashboard.** `GET /api/checkins` (oldest first, last 90 days) feeds the chart and history, an empty list shows the empty state. `GET /api/insights` returns the trend, message, themes and up to 3 matched resources. Themes stay empty until the LLM stage is on (FR-08 to FR-13).
+4. **Support.** `GET /api/resources` needs no token and lists verified UGM contacts, primary crisis contact first. The support screen must never depend on the API: the frontend keeps a built-in fallback copy of the primary crisis contact, so the Support button still works when the server is unreachable (FR-07).
+
+#### 2.6.3 Deployment and configuration
+
+| Side | Setting | Local | Azure |
+|------|---------|-------|-------|
+| Frontend | `NEXT_PUBLIC_API_URL` (baked in at build time) | `http://localhost:3000` | `https://<api>.azurewebsites.net` |
+| Frontend | Dev port | `3001` (`next dev -p 3001`, avoids a clash with the API on 3000) | not used |
+| Frontend | `next.config` | `output: 'export'`, `images: { unoptimized: true }` | same, deployed to Azure Static Web Apps (PROJECT-PLAN MM-310) |
+| Backend | `PORT` | `3000` | set by Azure App Service, health check `GET /health` |
+| Backend | `CORS_ORIGIN` | `http://localhost:3001` | the Static Web Apps URL (required in production) |
+| Backend | `DATABASE_URL`, `DB_SSL` | local PostgreSQL, `false` | Azure PostgreSQL, `true` |
+| Backend | `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` | empty (NLP off) | set in Stage 2, never in the frontend |
+| Backend | `DEMO_ANON_TOKEN` | any 16+ character token | same value, pasted into `localStorage` for the demo |
+
+Secrets live only in App Service settings and GitHub secrets, never in Git (template: `backend/.env.example`). CI on every pull request: backend ESLint and tests on a real PostgreSQL, including the contract check, and frontend ESLint, `tsc --noEmit` and `next build`. Jobs run when `backend/**`, `frontend/**` or `shared/**` change.
 
 ## 3. Functional requirements
 
@@ -70,7 +139,7 @@ Priority: **M** Must · **S** Should · **C** Could. Each has acceptance criteri
 | FR-04 | M | **Anonymous identity** via browser token; no name/email/demographics. | AC: no PII fields in DB/API; token stored hashed (SHA-256); app works with no sign-in. |
 | FR-05 | M | **Crisis detection before AI.** Backend keyword check on every note, before any LLM call. | AC: crisis phrase → `crisis_flag: true`, LLM not called, covered by unit tests for English and Indonesian variants (users may write in either). |
 | FR-06 | M | **Crisis screen.** When `crisis_flag` is true the FE shows a full-screen support view immediately. | AC: shows verified contacts first; one tap to call/open; cannot be dismissed accidentally by the check-in confirmation. |
-| FR-07 | M | **Always-visible support entry** on every screen. | AC: visible without scrolling at 360 px on all routes, including offline. |
+| FR-07 | M | **Always-visible support entry** on every screen. | AC: visible without scrolling at desktop width (1280 px and up) on all routes, including offline. The 360 px check moves to the mobile phase. |
 | FR-08 | M | **Mood dashboard.** Chart of the user's check-ins (7 and 30 day views) and history list. | AC: correct points per Jakarta day; empty state for no data; loads < 2 s on 4G. |
 | FR-09 | M | **Rule-based trend insight** per API-CONTRACT §5.5 with plain-language, non-diagnostic messages. | AC: unit tests for each trend row and boundaries; messages approved by UX; no diagnostic words. |
 | FR-10 | M | **Resource cards** matched to trend/themes; `crisis`-tagged first when `low`. | AC: `GET /api/resources` and `/api/insights` return verified entries; links open correctly. |
@@ -144,7 +213,7 @@ Won't (this PoC): login, reminders (schema columns exist, no sending), campus ag
 | AT-04 | Airplane mode → 3 check-ins → reconnect | Queue empties, 3 correct days, no duplicates |
 | AT-05 | Kill OpenRouter key/network | Check-in still saves, dashboard works, themes empty |
 | AT-06 | Demo account | Populated chart, a trend message, themes, resources |
-| AT-07 | Support entry on every screen at 360 px | Always visible and working |
+| AT-07 | Support entry on every screen at desktop width (1280 px) | Always visible and working |
 | AT-08 | 101 rapid requests in a minute from one IP (only once rate limiting is added, PROJECT-PLAN MM-601; stretch goal) | `429` after the limit, app recovers |
 | AT-09 | Inspect logs after AT-01…AT-05 | No note text, token or hash present |
 | AT-10 | Fresh deploy on Azure then `/health` | HTTP 200 from `/health` |
