@@ -1,6 +1,6 @@
 # MindMeter — Project Docs
 
-Senior Project Practicum, DTETI UGM · Group: **[fill in]** · Proof of Concept (not a clinical tool)
+Senior Project Practicum, DTETI UGM · Group: **1** · Proof of Concept (not a clinical tool)
 
 This folder is the single source of truth for how we build MindMeter. If code and docs disagree, **fix one of them in the same PR**.
 
@@ -18,7 +18,7 @@ This folder is the single source of truth for how we build MindMeter. If code an
 
 | Person | Role | Owns |
 |--------|------|------|
-| Radit (536801) | Cloud Engineer + Backend + AI logic | API, DB, rule-based insights, crisis check, OpenRouter call, Azure, deploy, seed data |
+| Nalen (536801) | Cloud Engineer + Backend + AI logic | API, DB, rule-based insights, crisis check, OpenRouter call, Azure, deploy, seed data |
 | Christania (532874) | Frontend / Software Engineer | Next.js + TypeScript app, API calls, offline queue + sync, loading/empty/error states |
 | Arya (536660) | UI/UX Designer | Wireframes, visual design, screens, copy tone, design handoff, usability testing |
 
@@ -59,8 +59,8 @@ This folder is the single source of truth for how we build MindMeter. If code an
 | # | Item | Owner | Due |
 |---|------|-------|-----|
 | O1 | Fill in the group name in every doc | Arya | Fri 23 Oct |
-| O2 | Team sign-off of these docs and the frozen `shared/contract.ts` | Radit + Christania + Arya | Fri 23 Oct |
-| O3 | Choose and verify the OpenRouter model (20 invented sample notes, English + Indonesian); optional stage, W5 | Radit | Fri 20 Nov |
-| O4 | Verify real UGM and national crisis contacts on official pages; fill `verified_at` in `backend/data/resources.json` | Arya + Radit | Fri 30 Oct |
+| O2 | Team sign-off of these docs and the frozen `shared/contract.ts` | Nalen + Christania + Arya | Fri 23 Oct |
+| O3 | Choose and verify the OpenRouter model (20 invented sample notes, English + Indonesian); optional stage, W5 | Nalen | Fri 20 Nov |
+| O4 | Verify real UGM and national crisis contacts on official pages; fill `verified_at` in `backend/data/resources.json` | Arya + Nalen | Fri 30 Oct |
 | O5 | Review the crisis keyword list (English + Indonesian, slang; notes may be in either language); fill `reviewed_by` / `reviewed_on`; then `npm run db:seed-safety`. Crisis detection is off until this is done | Team (+ a counselling contact if possible) | Fri 30 Oct |
 | O6 | Confirm the final demo date and practicum session dates; adjust PROJECT-PLAN | Arya | Fri 23 Oct |
