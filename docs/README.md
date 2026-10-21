@@ -1,6 +1,6 @@
 # MindMeter — Project Docs
 
-Senior Project Practicum, DTETI UGM · Group: **[fill in]** · Proof of Concept (not a clinical tool)
+Senior Project Practicum, DTETI UGM · Group: **1** · Proof of Concept (not a clinical tool)
 
 This folder is the single source of truth for how we build MindMeter. If code and docs disagree, **fix one of them in the same PR**.
 
