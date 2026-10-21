@@ -68,7 +68,7 @@ Owners: N = Nalen, C = Christania, A = Arya.
 | MM-103b | Everyone dry-runs §15.3 (commit on NIU branch → PR to `dev` → squash → sync) with a tiny docs change | Docs | N+C+A | S | MM-103 |
 | MM-104 | Azure: resource group, PostgreSQL, App Service, app settings (`DATABASE_URL`, `CORS_ORIGIN`), HTTPS only | Infra | N | L | — |
 | MM-105 | Apply schema and run migrations on Azure; deploy backend; `curl` smoke test of `/health` and `/api/resources` | BE/Infra | N | M | MM-104 |
-| MM-107 | Next.js + TS scaffold, `src/lib/api.ts` built from `docs/integration/reference-lib`, env URL, mock server from API-REFERENCE examples | FE | C | L | — |
+| MM-107 | Next.js scaffold in JavaScript with `jsconfig.json` (`checkJs` on), `src/lib/api.js` built from `docs/integration/reference-lib` with JSDoc types from `shared/contract.ts`, env URL, mock server from API-REFERENCE examples | FE | C | L | — |
 | MM-108 | Lo-fi wireframes: check-in, dashboard, crisis/support, offline states; tone-of-voice notes | UX | A | L | — |
 | MM-109 | Start safety review: draft crisis keyword list in English + Indonesian with slang (notes may be in either language); collect official UGM/national contacts with source links | UX/BE | A+N | M | — |
 | MM-111 | **English language switch:** translate backend text (trend templates in `trendRules.js`, descriptions in `data/resources.json`, `label_id` in `schema.sql`, comment in `contract.ts`, `.env.example` wording) and update the tests that assert message text. Keep the crisis keywords and the NLP prompt bilingual (English + Indonesian) | BE | N | S | — |

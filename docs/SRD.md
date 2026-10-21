@@ -33,7 +33,7 @@ Students (users) · the 3-person team · course lecturers (graders) · UGM wellb
 ## 2. Overall description
 
 ### 2.1 Context and technologies
-Client (Next.js + TypeScript, desktop-first) ↔ REST over HTTPS ↔ API (Node.js + Express, Azure App Service) ↔ Azure Database for PostgreSQL. The API calls OpenRouter (LLM) server-side. This covers the three required technologies:
+Client (Next.js in JavaScript, desktop-first) ↔ REST over HTTPS ↔ API (Node.js + Express, Azure App Service) ↔ Azure Database for PostgreSQL. The API calls OpenRouter (LLM) server-side. This covers the three required technologies:
 
 | Technology | How MindMeter uses it |
 |------------|-----------------------|
@@ -58,6 +58,66 @@ Latest two versions of desktop Chrome, Firefox and Edge, at 1280 px wide and up 
 - Students have a browser; JavaScript and `localStorage` enabled.
 - A verified list of UGM crisis contacts and a keyword list will be provided by the team (open items O4, O5).
 - Approximate demo date mid-December 2026 (confirm with lecturers; see PROJECT-PLAN).
+
+### 2.6 System architecture
+
+MindMeter is a three-tier web app: a Next.js frontend written in JavaScript, a Node.js + Express REST API, and a PostgreSQL database, all on Azure. The API calls OpenRouter for the optional note analysis. Every arrow below is HTTPS.
+
+```mermaid
+flowchart LR
+  subgraph Browser["Student's browser (desktop)"]
+    UI["Next.js pages (JavaScript)<br/>Landing, Check-in, Dashboard, Support, Crisis"]
+    LIB["src/lib<br/>api.js, anonToken.js, syncQueue.js"]
+    LS[("localStorage<br/>anonymous token + offline queue")]
+    UI --> LIB
+    LIB <--> LS
+  end
+  subgraph Azure["Microsoft Azure (department account)"]
+    SWA["Azure Static Web Apps<br/>hosts the frontend"]
+    API["Azure App Service<br/>Node.js 22 + Express 5 API"]
+    DB[("Azure Database for PostgreSQL<br/>8 tables")]
+  end
+  LLM["OpenRouter<br/>LLM, JSON only"]
+  SWA -. serves pages .-> UI
+  LIB -- "REST + X-Anon-Token header" --> API
+  API --> DB
+  API -- "async, non-crisis notes only" --> LLM
+```
+
+#### 2.6.1 Components
+
+| Layer | Technology | Location in repo | Responsibility |
+|-------|------------|------------------|----------------|
+| Pages and components | Next.js (App Router, client-rendered pages), JavaScript | `frontend/src/app/`, `frontend/src/components/` (planned) | Screens from the Figma hi-fi designs, loading, empty, error and offline states |
+| API client | JavaScript + JSDoc types from `shared/contract.ts` | `frontend/src/lib/api.js` (planned) | The only place that calls the backend. Sends `X-Anon-Token`, maps errors |
+| Anonymous identity | JavaScript | `frontend/src/lib/anonToken.js` (planned) | Creates and stores a random UUID token, never any personal data |
+| Offline queue | JavaScript | `frontend/src/lib/syncQueue.js` (planned) | Stores check-ins made offline and replays them to `/api/checkins/sync` |
+| Contract | Types only (TypeScript declaration file) | `shared/contract.ts` | Single source of truth for every request and response. Frozen at v1.0 |
+| HTTP layer | Express 5, helmet, cors, JSON body limit 32 kb | `backend/src/app.js`, `backend/src/api/`, `backend/src/middleware/` | Routing, validation, anonymous user lookup, security headers, error format |
+| Services | JavaScript | `backend/src/services/` | `checkinService` (order of the safety rule), `crisisService`, `insightService`, `nlpService` |
+| Rules | JavaScript | `backend/src/logic/` | `crisisCheck`, `trendRules` (rule-based AI), `checkDate` (Jakarta calendar day) |
+| Data access | `pg` with parameterized queries | `backend/src/models/`, `backend/src/db/pool.js` | Tables per `schema.sql`, one check-in per user per day |
+| Database | Azure Database for PostgreSQL | `backend/src/models/schema.sql` | 8 tables, ERD in `docs/image/ERD.png` |
+| LLM | OpenRouter (model from `OPENROUTER_MODEL`) | called from `nlpService` | Sentiment and themes from a fixed list, never on the crisis path |
+| CI/CD | GitHub Actions | `.github/workflows/ci.yml` | Lint, tests with a real PostgreSQL, build check, deploy to Azure |
+
+#### 2.6.2 Main flows
+
+1. **Check-in (online).** The page calls `api.js`, which sends `POST /api/checkins`. The backend runs the crisis keyword check first, then saves the check-in with its `crisis_flag` (one row per user per Jakarta day). If the flag is true it stops there, with no insight and no LLM call, and the frontend shows the full-screen support view (FR-05, FR-06). Otherwise it returns the rule-based insight right away and queues the note for LLM analysis in the background (FR-09, FR-12).
+2. **Check-in (offline).** If the request fails because the device is offline, `syncQueue.js` keeps the check-in in `localStorage` and the page shows "Saved on this device". When the browser is back online the queue is sent to `POST /api/checkins/sync`. The backend saves the items in `client_ts` order, the newer check-in for a day wins, and replaying the same queue twice is safe (FR-11, DR-04).
+3. **Dashboard.** The page loads `GET /api/checkins` for the chart and history and `GET /api/insights` for the trend message, themes and matched resources. Themes appear only when the LLM analysis is `done` (FR-08 to FR-13).
+4. **Support.** `GET /api/resources` lists verified UGM contacts, primary crisis contact first. The support entry is in the header of every screen (FR-07).
+
+#### 2.6.3 Deployment and configuration
+
+| Item | Value |
+|------|-------|
+| Frontend hosting | Azure Static Web Apps (PROJECT-PLAN MM-310) |
+| Backend hosting | Azure App Service, Node.js 22, health check `GET /health` |
+| Database | Azure Database for PostgreSQL, migrations with `npm run db:migrate` |
+| Backend settings (App Service, never in Git) | `DATABASE_URL`, `DB_SSL`, `CORS_ORIGIN` (the Static Web Apps URL), `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `DEMO_ANON_TOKEN`, `PORT`, `NODE_ENV`. Template: `backend/.env.example` |
+| Frontend settings | API base URL as a public environment variable (name set during MM-107) |
+| Pipeline | Pull requests run lint and tests. Pushes to the integration branch deploy to Azure (PR-RULES §15, PROJECT-PLAN MM-103) |
 
 ## 3. Functional requirements
 
@@ -95,7 +155,7 @@ Won't (this PoC): login, reminders (schema columns exist, no sending), campus ag
 | NFR-05 | Safety | Crisis logic deterministic and tested first; support always visible; LLM output never shown as advice, only used for theme labels. |
 | NFR-06 | Usability / accessibility | One-tap core action; tap targets ≥ 44 px; WCAG AA contrast; usable with screen reader labels on mood buttons; calm, uncluttered, non-clinical tone. |
 | NFR-07 | Reliability | Idempotent sync; DB constraints enforce one check-in per user per day; LLM failure never blocks saving. |
-| NFR-08 | Maintainability | Shared TS contract; CI (lint, types, tests, build); docs updated with code; thresholds/config in one file. |
+| NFR-08 | Maintainability | One shared contract (`shared/contract.ts`) used by the backend tests and by the JavaScript frontend through JSDoc types with `// @ts-check`. CI runs lint, type check, tests and build. Docs updated with code. Thresholds and config in one file. |
 | NFR-09 | Observability | Structured logs with `request_id`, route, status, latency; error tracking via logs only (no PII). |
 | NFR-10 | Portability | Environment-driven config (`.env.example`); same container/Node runtime locally and on Azure. |
 
@@ -183,8 +243,9 @@ Pros: clean daily series, simple charts, idempotency. Cons: cannot track intra-d
 **DR-06 LLM analysis in a separate table, async**
 Pros: a failed call never blocks saving; easy retry; clean separation. Cons: eventual consistency (themes appear later). Acceptable.
 
-**DR-07 Next.js + TypeScript frontend with shared contract types**
-Pros: compile-time contract matching, good mobile performance, one language across the stack. Cons: more tooling than plain HTML for beginners; SSR concepts can distract. Mitigation: use the client-rendered app router pages only, keep it simple. (Note: the earlier Final Decisions document listed the framework as undecided; this reflects the later decision to use Next.js.)
+**DR-07 Next.js frontend in JavaScript, same language as the backend (decided 21 Oct 2026, replaces the earlier TypeScript choice)**
+Decision: the frontend is a Next.js app written in plain JavaScript, like the Node.js backend. The frozen types in `shared/contract.ts` stay the single source of truth. The frontend uses them through JSDoc comments (for example `/** @type {import('../../../shared/contract').CheckinResponse} */`) with `// @ts-check` and `checkJs` in `jsconfig.json`, so the editor and CI still catch contract mistakes. The contract file itself does not change.
+Pros: one language across the whole team and stack, less tooling for beginners, faster start for the frontend owner, the backend can be read by everyone. Cons: weaker type safety than full TypeScript (JSDoc checks are only as good as the comments written), some tutorials assume TypeScript. Mitigation: all backend calls stay in `src/lib/api.js` with JSDoc types, `checkJs` is on, and the backend integration tests keep checking real responses against `contract.ts`. Follow-up: `API-CONTRACT.md`, `API-REFERENCE.md` and `docs/integration/reference-lib/` still name `api.ts` and need a small `contract-change` labelled docs PR approved by both owners (PR-RULES §8). The types do not change.
 
 **DR-08 Git flow: trunk-based rules (PR-RULES §1–§14) plus NIU personal branches and a `dev` branch (§15)**
 Pros: keeps the team's existing habit of working on a personal NIU branch; `dev` is the single integration branch and `main` is a clean final snapshot reached by one merge at the end; weekly progress is tagged on `dev`; squash keeps one commit per issue. Cons: long-lived personal branches can produce phantom conflicts or bloated PRs; `main` is deliberately unprotected (team decision), so only team discipline keeps it untouched until the final merge; GitHub only auto-closes issues on the default branch. Mitigations (sync-before-work, freeze rule, sync-after-merge, `dev` as default branch, merge-commit final merge) are in PR-RULES §15.4–§15.5. Fallback if it hurts by Week 4: task branches straight into `dev`.
